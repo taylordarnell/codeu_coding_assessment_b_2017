@@ -30,6 +30,7 @@ public final class MyTokenReader implements TokenReader {
   public MyTokenReader(String source) {
     // Your token reader will only be given a string for input. The string will
     // contain the whole source (0 or more lines).
+    this.source = source;
   }
 
   @Override
@@ -40,6 +41,7 @@ public final class MyTokenReader implements TokenReader {
 
     // If for any reason you detect an error in the input, you may throw an IOException
     // which will stop all execution.
+
 
     return null;
   }
