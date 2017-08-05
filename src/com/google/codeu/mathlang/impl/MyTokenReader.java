@@ -15,9 +15,11 @@
 package com.google.codeu.mathlang.impl;
 
 import java.io.IOException;
+import java.util.*;
 
 import com.google.codeu.mathlang.core.tokens.Token;
 import com.google.codeu.mathlang.parsing.TokenReader;
+import com.google.codeu.mathlang.core.tokens.*;
 
 // MY TOKEN READER
 //
@@ -30,7 +32,7 @@ public final class MyTokenReader implements TokenReader {
   public MyTokenReader(String source) {
     // Your token reader will only be given a string for input. The string will
     // contain the whole source (0 or more lines).
-    this.source = source;
+    //this.source = source;
   }
 
   @Override
@@ -42,7 +44,41 @@ public final class MyTokenReader implements TokenReader {
     // If for any reason you detect an error in the input, you may throw an IOException
     // which will stop all execution.
 
-
-    return null;
+    String result = "";
+    String input = "";
+    Scanner scnr = new Scanner(input);
+    while(scnr.hasNext() && Character.isWhitespace(input.charAt(0))) {
+      input = input.substring(1);
+    }
+    if(!scnr.hasNext()) {
+      return null;
+    } else {
+      int i = 0;
+      while(scnr.hasNext() && !Character.isWhitespace(input.charAt(i))) {
+        result += input.charAt(i);
+        i++;
+      }
+      boolean isNumber = true;
+      int j = 0;
+      while(!Character.isDigit(result.charAt(j)) && j < result.length()) {
+        j++;
+        isNumber = false;
+      }
+      boolean isLetter = true;
+      j = 0;
+      while(!Character.isAlphabetic(result.charAt(j)) && j < result.length()) {
+        j++;
+        isLetter = false;
+      }
+      if(isNumber) {
+        return new NumberToken(Double.parseDouble(result));
+      } else if(isLetter) {
+        return new NameToken(result);
+      } else if(result.length() == 1) {
+        return new SymbolToken(result.charAt(0));
+      } else {
+        return new StringToken(result);
+      }
+    }
   }
 }
